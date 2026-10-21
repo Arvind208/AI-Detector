@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-sentinel-detector"
+version = "1.0.0"
+description = "Advanced multi-signal AI text detector utilizing Perplexity, Burstiness, and Stylometric Analysis"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Arvind", email = "arvind@users.noreply.github.com" },
+]
+license = { text = "MIT" }
+dependencies = [
+  "fastapi>=0.100.0",
+  "uvicorn[standard]>=0.20.0",
+  "pydantic>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Arvind208/ai-text-detector"
+Repository = "https://github.com/Arvind208/ai-text-detector"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_detector"]

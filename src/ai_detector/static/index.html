@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sentinel — Advanced AI Text Detector & Classifier</title>
+    <meta name="description" content="State-of-the-art AI text detector utilizing Perplexity, Burstiness, and Stylometric Analysis. Created by Arvind.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Background Glow Blobs -->
+    <div class="bg-glow blob-1"></div>
+    <div class="bg-glow blob-2"></div>
+
+    <div class="app-container">
+        <!-- Navigation Bar -->
+        <header class="navbar">
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <circle cx="12" cy="11" r="3"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>AI Sentinel</h1>
+                    <span class="badge">v1.0 Core</span>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <a href="https://github.com/Arvind208" target="_blank" rel="noopener noreferrer" class="nav-btn github-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    <span>@Arvind208</span>
+                </a>
+                <a href="/docs" target="_blank" class="nav-btn api-btn">
+                    <span>API Docs</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-layout">
+            <!-- Left Panel: Text Input -->
+            <section class="panel editor-panel">
+                <div class="panel-header">
+                    <div class="sample-actions">
+                        <span class="label-heading">Test Sample:</span>
+                        <button id="btn-sample-ai" class="pill-btn pill-ai" title="Load sample text written by ChatGPT">
+                            <span class="dot"></span> AI Sample
+                        </button>
+                        <button id="btn-sample-human" class="pill-btn pill-human" title="Load sample text written by a human">
+                            <span class="dot"></span> Human Sample
+                        </button>
+                        <button id="btn-sample-mixed" class="pill-btn pill-mixed" title="Load sample text with AI assistance">
+                            <span class="dot"></span> Mixed Sample
+                        </button>
+                    </div>
+                    <div class="tool-actions">
+                        <button id="btn-paste" class="icon-btn" title="Paste from clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+                        </button>
+                        <button id="btn-clear" class="icon-btn" title="Clear text area">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="textarea-wrapper">
+                    <textarea 
+                        id="input-text" 
+                        placeholder="Paste your text here to analyze (articles, essays, emails, code comments, or ChatGPT outputs)..."
+                        rows="12"
+                    ></textarea>
+                </div>
+
+                <div class="editor-footer">
+                    <div class="counts">
+                        <span id="word-count">0 words</span>
+                        <span class="separator">•</span>
+                        <span id="char-count">0 characters</span>
+                    </div>
+                    <button id="btn-analyze" class="primary-btn">
+                        <span class="btn-text">Analyze Content</span>
+                        <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        <div class="loader-spinner hidden" id="spinner"></div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right Panel: Results Dashboard -->
+            <section class="panel results-panel" id="results-panel">
+                <!-- Empty State Placeholder -->
+                <div id="empty-state" class="empty-state">
+                    <div class="empty-icon-wrap">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <h3>Ready for Analysis</h3>
+                    <p>Enter text on the left or select a sample above, then click <strong>Analyze Content</strong> to inspect AI signals.</p>
+                </div>
+
+                <!-- Analysis Results Content -->
+                <div id="results-content" class="results-content hidden">
+                    <!-- Score Meter Header -->
+                    <div class="score-card">
+                        <div class="radial-container">
+                            <svg class="radial-svg" viewBox="0 0 120 120">
+                                <circle class="radial-bg" cx="60" cy="60" r="50"></circle>
+                                <circle class="radial-progress" id="radial-progress" cx="60" cy="60" r="50"></circle>
+                            </svg>
+                            <div class="radial-text">
+                                <span class="score-number" id="score-val">0</span>
+                                <span class="score-percent">%</span>
+                            </div>
+                        </div>
+                        <div class="verdict-info">
+                            <div class="verdict-badge" id="verdict-badge">Likely Human</div>
+                            <h2 id="verdict-heading">Likely Human-Written</h2>
+                            <p id="verdict-summary" class="verdict-summary">Loading summary...</p>
+                        </div>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-title">
+                                <span>Burstiness Variance</span>
+                                <span class="info-tip" title="Sentence length variation. Humans write with high variance; AI generates uniform rhythms.">ℹ️</span>
+                            </div>
+                            <div class="metric-value" id="val-burstiness">0.00</div>
+                            <div class="metric-sub" id="sub-burstiness">Rhythm consistency</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-title">
+                                <span>Perplexity Index</span>
+                                <span class="info-tip" title="Predictability metric. Low scores indicate highly predictable AI word patterns.">ℹ️</span>
+                            </div>
+                            <div class="metric-value" id="val-perplexity">0.0</div>
+                            <div class="metric-sub" id="sub-perplexity">Vocabulary entropy</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-title">
+                                <span>Lexical Diversity</span>
+                                <span class="info-tip" title="Type-Token Ratio (TTR). Measures unique vocabulary vs repetition.">ℹ️</span>
+                            </div>
+                            <div class="metric-value" id="val-ttr">0.00</div>
+                            <div class="metric-sub">Type-Token Ratio</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-title">
+                                <span>Reading Ease</span>
+                                <span class="info-tip" title="Flesch Reading Ease score from 0 (very complex) to 100 (very plain).">ℹ️</span>
+                            </div>
+                            <div class="metric-value" id="val-reading">0.0</div>
+                            <div class="metric-sub">Flesch Ease index</div>
+                        </div>
+                    </div>
+
+                    <!-- Detected AI Markers -->
+                    <div class="markers-card" id="markers-box">
+                        <div class="markers-title">
+                            <span>Detected AI Clichés & Signposts:</span>
+                            <span class="markers-count" id="markers-count">0 found</span>
+                        </div>
+                        <div class="markers-tags" id="markers-tags"></div>
+                    </div>
+
+                    <!-- Quick Export Actions -->
+                    <div class="results-actions">
+                        <button id="btn-copy-report" class="action-btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            <span>Copy Report</span>
+                        </button>
+                        <button id="btn-download-json" class="action-btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            <span>Download JSON</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Sentence Heatmap Section -->
+        <section class="panel heatmap-panel hidden" id="heatmap-panel">
+            <div class="heatmap-header">
+                <div class="heatmap-title-wrap">
+                    <h3>Interactive Sentence Heatmap</h3>
+                    <p>Click on any sentence to inspect its isolated AI likelihood and linguistic diagnostic.</p>
+                </div>
+                <div class="heatmap-legend">
+                    <span class="legend-item"><span class="legend-color legend-green"></span> Human (&lt;40%)</span>
+                    <span class="legend-item"><span class="legend-color legend-yellow"></span> Mixed (40-69%)</span>
+                    <span class="legend-item"><span class="legend-color legend-red"></span> AI (&ge;70%)</span>
+                </div>
+            </div>
+
+            <div class="heatmap-content" id="heatmap-content"></div>
+
+            <!-- Sentence Detail Drawer -->
+            <div class="sentence-inspector hidden" id="sentence-inspector">
+                <div class="inspector-header">
+                    <span class="inspector-badge" id="insp-badge">Sentence #1</span>
+                    <span class="inspector-score" id="insp-score">85% AI Likelihood</span>
+                </div>
+                <p class="inspector-text" id="insp-text"></p>
+                <div class="inspector-reason" id="insp-reason"></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Developed with precision by <strong>Arvind</strong> (<a href="https://github.com/Arvind208" target="_blank">@Arvind208</a>) • Open Source Under MIT License</p>
+        </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">Report copied to clipboard!</div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
